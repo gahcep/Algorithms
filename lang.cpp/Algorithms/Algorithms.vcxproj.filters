@@ -4,9 +4,6 @@
     <Filter Include="Abstractions">
       <UniqueIdentifier>{a5f90cfd-a3d0-41e0-97f6-7382547025c6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Factory">
-      <UniqueIdentifier>{f63038eb-5e7e-4e40-b18e-0358b1b1bb5b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Sorting">
       <UniqueIdentifier>{a25bc777-e9a9-4267-a29c-b5d1f07b842a}</UniqueIdentifier>
     </Filter>
@@ -15,18 +12,12 @@
     <ClCompile Include="Sorting\QuickSort.cpp">
       <Filter>Sorting</Filter>
     </ClCompile>
-    <ClCompile Include="Factory\SortFactory.cpp">
-      <Filter>Factory</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sorting\QuickSort.h">
       <Filter>Sorting</Filter>
     </ClInclude>
-    <ClInclude Include="Factory\SortFactory.h">
-      <Filter>Factory</Filter>
-    </ClInclude>
-    <ClInclude Include="Abstractions\ISortingBase.h">
+    <ClInclude Include="Abstractions\SortingBase.h">
       <Filter>Abstractions</Filter>
     </ClInclude>
   </ItemGroup>

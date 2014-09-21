@@ -66,12 +66,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Factory\SortFactory.cpp" />
     <ClCompile Include="Sorting\QuickSort.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Abstractions\ISortingBase.h" />
-    <ClInclude Include="Factory\SortFactory.h" />
+    <ClInclude Include="Abstractions\SortingBase.h" />
     <ClInclude Include="Sorting\QuickSort.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

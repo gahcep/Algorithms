@@ -1,10 +1,22 @@
 #pragma once
 
-#include "../Abstractions/ISortingBase.h"
+#include <vector>
+#include <iostream>
 
-class QuickSort : ISortingBase
+#include "../Abstractions/SortingBase.h"
+
+using namespace std;
+
+class QuickSort : SortingBase
 {
+
 public:
 
-	void Sort() const override;
+	void Run(vector<int>& vec) override;
+
+	//void Print() const override;
+
+	void DoSort(vector<int>& arr, int begin, int end);
+
+	int Partition(vector<int>& arr, int beginPos, int endPos);
 };
