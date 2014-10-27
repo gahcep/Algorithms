@@ -7,10 +7,16 @@
     <Filter Include="Sorting">
       <UniqueIdentifier>{a25bc777-e9a9-4267-a29c-b5d1f07b842a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fibonacci">
+      <UniqueIdentifier>{11bc16bf-d86a-47bc-aedf-aa8e69572506}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sorting\QuickSort.cpp">
       <Filter>Sorting</Filter>
+    </ClCompile>
+    <ClCompile Include="Fibonacci.cpp">
+      <Filter>Fibonacci</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -19,6 +25,9 @@
     </ClInclude>
     <ClInclude Include="Abstractions\SortingBase.h">
       <Filter>Abstractions</Filter>
+    </ClInclude>
+    <ClInclude Include="Fibonacci.h">
+      <Filter>Fibonacci</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -66,10 +66,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Fibonacci.cpp" />
     <ClCompile Include="Sorting\QuickSort.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Abstractions\SortingBase.h" />
+    <ClInclude Include="Fibonacci.h" />
     <ClInclude Include="Sorting\QuickSort.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
