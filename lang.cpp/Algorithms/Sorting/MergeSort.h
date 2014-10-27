@@ -7,14 +7,17 @@
 
 using namespace std;
 
-class QuickSort : SortingBase
+class MergeSort : SortingBase
 {
 
 public:
-
+	
 	void Run(vector<int>& vec) override;
 
 	void DoSort(vector<int>& arr, int begin, int end);
 
-	int Partition(vector<int>& arr, int beginPos, int endPos);
+	vector<int> SortAndMerge(vector<int> arrInput, int beginPos, int endPos);
+
+	vector<int> Combine(vector<int> sub1, vector<int> sub2);
 };
+
