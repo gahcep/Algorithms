@@ -2,6 +2,8 @@
 #include <vector>
 #include <memory>
 
+#include "../TPL/DataLoader.hpp"
+
 #include "../Algorithms/Sorting/QuickSort.h"
 #include "../Algorithms/Sorting/MergeSort.h"
 #include "../Algorithms/Fibonacci.h"
@@ -10,13 +12,29 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
-	vector<int> vec_random { 4, 7, 22, 5, 1, 9, 3, 87, 24, 7, 4, 3, 67, 12, 67, 23, 78, 45 };
-	vector<int> vec_sorted{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
-	vector<int> vec_rev_sorted { 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 };
+	// Load input data for sorting algorithms
+	DataLoader::Loader<int> loader("../InputData/sorting.txt");
+	
+	// Set up the reader
+	loader.delimeter(';');
+
+	// Load data from the file
+	loader.ReadVector(DataLoader::Flags::VectorNoSize, DataLoader::Kind::Vector);
+
+	// Check state
+	if (!loader.is_ok())
+	{
+		loader.Refresh();
+		exit(1);
+	}
+
+	// Load data from the reader
+	vector<int> vec_random{ 0 };
+	loader.ArgVector(0, vec_random);
 	
 	// QuickSort
-	//auto qsort = unique_ptr<QuickSort>(new QuickSort());
-	//qsort->Run(vec_random);
+	auto qsort = unique_ptr<QuickSort>(new QuickSort());
+	qsort->Run(vec_random);
 
 	// MergeSort
 	auto msort = unique_ptr<MergeSort>(new MergeSort());
@@ -30,5 +48,4 @@ int main(int argc, char** argv)
 	found_num = fibo->FindLastDigit(18);
 
 	auto v = 0;
-
 }

@@ -24,6 +24,7 @@
 *.sdf
 *.opensdf
 *.unsuccessfulbuild
+*.filters
 ipch/
 obj/
 [Bb]in
