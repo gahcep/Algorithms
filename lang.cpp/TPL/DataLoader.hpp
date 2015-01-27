@@ -267,7 +267,7 @@ namespace DataLoader
 			// Validate vector length if appropriate option is given
 			bool checkVecLength = parse_opts & Flags_Vector_Parse::Size;
 			// For each vector given check if items number remains the same
-			bool checkVecEquality = check_opts & Flags_Vector_Check::LengthEquality;
+			bool checkVecEquality = !!(check_opts & Flags_Vector_Check::LengthEquality);
 			// If no Size is given and parse option is set to ItemsLineByLine,
 			// we are to read in one vector storage until the end of the file
 			bool readUntilEOF = !checkVecLength && (parse_opts & Flags_Vector_Parse::ItemsLineByLine);

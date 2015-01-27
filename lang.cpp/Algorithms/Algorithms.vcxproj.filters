@@ -15,13 +15,18 @@
     <ClCompile Include="Sorting\QuickSort.cpp">
       <Filter>Sorting</Filter>
     </ClCompile>
-    <ClCompile Include="Fibonacci.cpp">
-      <Filter>Fibonacci</Filter>
-    </ClCompile>
     <ClCompile Include="Sorting\MergeSort.cpp">
       <Filter>Sorting</Filter>
     </ClCompile>
-    <ClCompile Include="Sorting\BubbleSort.cpp" />
+    <ClCompile Include="Sorting\BubbleSort.cpp">
+      <Filter>Sorting</Filter>
+    </ClCompile>
+    <ClCompile Include="Sorting\SelectionSort.cpp">
+      <Filter>Sorting</Filter>
+    </ClCompile>
+    <ClCompile Include="Fibonacci\Fibonacci.cpp">
+      <Filter>Fibonacci</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sorting\QuickSort.h">
@@ -30,12 +35,17 @@
     <ClInclude Include="Abstractions\SortingBase.h">
       <Filter>Abstractions</Filter>
     </ClInclude>
-    <ClInclude Include="Fibonacci.h">
-      <Filter>Fibonacci</Filter>
-    </ClInclude>
     <ClInclude Include="Sorting\MergeSort.h">
       <Filter>Sorting</Filter>
     </ClInclude>
-    <ClInclude Include="Sorting\BubbleSort.h" />
+    <ClInclude Include="Sorting\BubbleSort.h">
+      <Filter>Sorting</Filter>
+    </ClInclude>
+    <ClInclude Include="Sorting\SelectionSort.h">
+      <Filter>Sorting</Filter>
+    </ClInclude>
+    <ClInclude Include="Fibonacci\Fibonacci.h">
+      <Filter>Fibonacci</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

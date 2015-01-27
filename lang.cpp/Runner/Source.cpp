@@ -7,7 +7,8 @@
 #include "../Algorithms/Sorting/QuickSort.h"
 #include "../Algorithms/Sorting/MergeSort.h"
 #include "../Algorithms/Sorting/BubbleSort.h"
-#include "../Algorithms/Fibonacci.h"
+#include "../Algorithms/Sorting/SelectionSort.h"
+#include "../Algorithms/Fibonacci/Fibonacci.h"
 
 using namespace std;
 
@@ -33,6 +34,10 @@ int main(int argc, char** argv)
 	vector<int> vec_random{ 0 };
 	loader.arg_vector(0, vec_random);
 	
+	// SelectionSort
+	auto ssort = unique_ptr<SelectionSort>(new SelectionSort());
+	ssort->Run(vec_random);
+
 	// BubbleSort
 	auto bsort = unique_ptr<BubbleSort>(new BubbleSort());
 	bsort->Run(vec_random);

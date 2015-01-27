@@ -47,7 +47,7 @@ vector<int> MergeSort::Combine(vector<int> sub1, vector<int> sub2)
 	auto len = sub1.size() + sub2.size();
 	output.reserve(len);
 
-	int i = 0, j = 0;
+	size_t i = 0, j = 0;
 	while ((i < sub1.size()) || (j < sub2.size()))
 	{
 		if (i == sub1.size())
