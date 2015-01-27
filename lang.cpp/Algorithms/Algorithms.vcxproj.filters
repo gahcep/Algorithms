@@ -21,6 +21,7 @@
     <ClCompile Include="Sorting\MergeSort.cpp">
       <Filter>Sorting</Filter>
     </ClCompile>
+    <ClCompile Include="Sorting\BubbleSort.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sorting\QuickSort.h">
@@ -35,5 +36,6 @@
     <ClInclude Include="Sorting\MergeSort.h">
       <Filter>Sorting</Filter>
     </ClInclude>
+    <ClInclude Include="Sorting\BubbleSort.h" />
   </ItemGroup>
 </Project>

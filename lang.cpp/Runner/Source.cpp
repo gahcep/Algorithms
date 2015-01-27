@@ -6,6 +6,7 @@
 
 #include "../Algorithms/Sorting/QuickSort.h"
 #include "../Algorithms/Sorting/MergeSort.h"
+#include "../Algorithms/Sorting/BubbleSort.h"
 #include "../Algorithms/Fibonacci.h"
 
 using namespace std;
@@ -19,19 +20,23 @@ int main(int argc, char** argv)
 	loader.delimeter(';');
 
 	// Load data from the file
-	loader.ReadVector(DataLoader::Flags::VectorNoSize, DataLoader::Kind::Vector);
+	loader.read_vector(DataLoader::Flags::NullOpts, DataLoader::Flags_Vector_Parse::ItemsAtOnce, DataLoader::Kind::Vector);
 
 	// Check state
 	if (!loader.is_ok())
 	{
-		loader.Refresh();
+		loader.refresh();
 		exit(1);
 	}
 
 	// Load data from the reader
 	vector<int> vec_random{ 0 };
-	loader.ArgVector(0, vec_random);
+	loader.arg_vector(0, vec_random);
 	
+	// BubbleSort
+	auto bsort = unique_ptr<BubbleSort>(new BubbleSort());
+	bsort->Run(vec_random);
+
 	// QuickSort
 	auto qsort = unique_ptr<QuickSort>(new QuickSort());
 	qsort->Run(vec_random);

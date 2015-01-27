@@ -1,5 +1,6 @@
 #pragma once
 
+#include <limits>
 #include <vector>
 #include <string>
 #include <fstream>
@@ -15,26 +16,61 @@ namespace DataLoader
 		Matrix
 	};
 
+	namespace Flags
+	{
+		// No Flags
+		const unsigned NullOpts = 0;
+
+		namespace Vector
+		{
+			namespace Parse
+			{
+				// Read vector's size first (automatically check for items count)
+				const unsigned Size = 1;
+
+				// Read vector's elements line by line
+				const unsigned ItemsLineByLine = (1 << 1);
+
+				// Read vector's elements at one as a delimeter-separated string
+				const unsigned ItemsAtOnce = (1 << 2);
+			}
+
+			namespace Check
+			{
+				// All loaded vectors should have the same length
+				const unsigned LengthEquality = (1 << 3);
+			}
+		}
+
+		namespace Matrix
+		{
+			/*  
+				-- Work with only 2D matrix
+				-- Matrix should always has dimentions being put before the data
+				-- The number of rows and columns are checked after full read
+			*/
+
+			namespace Parse
+			{
+				// Read dimentions: each value on separate line {val_1 \n val_2}
+				const unsigned DimentionsLineByLine = 1;
+
+				// Read dimentions: each value on the same line {val_1 <delim> val_2 }
+				const unsigned DimentionsAtOnce = (1 << 1);
+			}
+
+			namespace Check {}
+		}
+	}
+
+	// Namespace Aliases
+	namespace Flags_Vector_Parse = Flags::Vector::Parse;
+	namespace Flags_Vector_Check = Flags::Vector::Check;
+	namespace Flags_Matrix_Parse = Flags::Matrix::Parse;
+	namespace Flags_Matrix_Check = Flags::Matrix::Check;
+
 	namespace Flags 
 	{
-		// [ReadVector]
-
-		/* Assume that size for vector is not provided */
-		const unsigned VectorNoSize = 1;
-		/* Read size of vector and validate if the number of given items corresponds to */
-		const unsigned CheckVectorLength = (1 << 1);
-		/* Check if all vectors have the same length */
-		const unsigned CheckVectorsLenEquality = (1 << 2);
-
-		// [ReadMatrix]
-
-		/* Read dimensions (row, col) */
-		const unsigned ReadDimentions = (1 << 3);
-		/* Read dimentions: each value on separate line {val_1 \n val_2} */
-		const unsigned ReadDimLineByLine = (1 << 4);
-		/* Read dimentions: each value on the same line {val_1 <delim> val_2 } */
-		const unsigned ReadDimOneLine = (1 << 5);
-
 		// [ReadArbitrary]
 
 		/* If met delimeter separated values, read one by one */
@@ -48,42 +84,14 @@ namespace DataLoader
 		const unsigned Idle = 1; // ok
 		const unsigned FileAccessError = (1 << 1); // bad
 		const unsigned FileReadFormatError = (1 << 2); // fail
-		const unsigned FileReadFailure = (1 << 3); // ios::bad
+		const unsigned FileReadFailure = (1 << 3); // bad/ios::bad
 		const unsigned VectorItemsWrongNumber = (1 << 4); // fail
 		const unsigned VectorsHaveDifferentLength = (1 << 4); // fail
+		const unsigned WrongReadConfiguration = (1 << 5); // fail
+		const unsigned VectorInvalidIndex = (1 << 5); // bad
 	}
 
-	// First way: via struct type member
-	/*
-	template<class U>
-	struct EnableForArithmeticType {
-		typedef typename std::enable_if<std::is_floating_point<U>::value>::type type;
-	};
-	
-	template<class U, class Enable = EnableForArithmeticType<U>::type>
-	class DataLoader {...}
-	*/
-
-	// Second way: struct inheritance
-	/*
-	template<class U>
-	struct EnableForArithmeticType : std::enable_if<std::is_floating_point<U>::value>
-	{};
-
-	template<class U, class Enable = EnableForArithmeticType<U>::type>
-	class DataLoader {...}
-	*/
-
-	// Third way: using
-	/*
-	template<class U>
-	using EnableForArithmeticType = typename std::enable_if<std::is_floating_point<U>::value>::type;
-
-	template<class U, class Enable = EnableForArithmeticType<U>>
-	class DataLoader {...}
-	*/
-
-	/* Restricting the usage of DataReader class to only integral types */
+	// Restricting the usage of Loader class
 	template<class U>
 	struct EnableForArithmeticType {
 		typedef typename std::enable_if<std::is_arithmetic<U>::value>::type type;
@@ -108,18 +116,37 @@ namespace DataLoader
 
 		// Storage for read data
 		std::vector<std::vector<U>> _storageVector;
+		std::vector<U> _storageMatrix;
 
-		void Split(std::string line, std::vector<U>& storage)
+		void split(std::fstream& stream, std::vector<U>& storage, size_t lines_to_read)
 		{
-			std::stringstream sstream(line);
+			std::string line;
+			std::stringstream sstream;
 			std::stringstream sconvert;
 			std::string item;
 			U num;
-			while (std::getline(sstream, item, _delimeter)) {
-				sconvert.str(item);
-				sconvert >> num;
-				sconvert.clear();
-				storage.push_back(num);
+
+			while (!stream.eof() && lines_to_read--)
+			{
+				// Read vector's items
+				std::getline(stream, line);
+
+				if (!stream.eof() && stream.rdstate() != std::ios::goodbit)
+				{
+					if (stream.fail()) _state = State::FileReadFormatError;
+					if (stream.bad()) _state = State::FileReadFailure;
+					break;
+				}
+				
+				sstream.str(line);				
+				while (std::getline(sstream, item, _delimeter)) {
+					sconvert.str(item);
+					sconvert >> num;
+					sconvert.clear();
+					storage.push_back(num);
+				}
+
+				sstream.clear();
 			}
 		}
 
@@ -135,27 +162,35 @@ namespace DataLoader
 
 		// Service: state check aliases
 		inline bool is_ok() const { return _state == State::Idle; };
-		inline bool is_bad() const { return _state == State::FileAccessError || _state == State::FileReadFailure; };
+		inline bool is_bad() const {
+			return
+				_state == State::FileAccessError ||
+				_state == State::FileReadFailure ||
+				_state == State::VectorInvalidIndex;
+		};
 		inline bool is_fail() const { return !is_ok() && !is_bad(); };
 
 		// Service: reset internal state
-		void Refresh()
+		void refresh()
 		{
 			_state = State::Idle;
 			_storageVector.clear();
 		}
 
 		// Service: get vector length
-		size_t ArgVectorLen(size_t idx) const
+		size_t arg_vector_len(size_t idx)
 		{
 			if (idx >= _storageVector.size())
-				return;
+			{
+				_state = State::VectorInvalidIndex;
+				return std::numeric_limits<size_t>::max();
+			}
 
 			return _storageVector[idx].size();
 		}
 
-		// Return data vector
-		std::vector<U> ArgVector(size_t idx)
+		// Return i-th vector
+		std::vector<U> arg_vector(size_t idx)
 		{
 			if (idx >= _storageVector.size())
 				return std::vector<U>{};
@@ -164,12 +199,8 @@ namespace DataLoader
 		};
 
 		// Fill in given vector storage
-		void ArgVector(size_t idx, std::vector<U>& storage)
+		void arg_vector(size_t idx, std::vector<U>& storage)
 		{
-			/*static_assert(
-				std::is_base_of<decltype(_storageVector)::value_type,
-					std::vector < U >> ::value, "std::vector must be of U type");*/
-
 			if (idx >= _storageVector.size())
 				return;
 
@@ -177,9 +208,9 @@ namespace DataLoader
 			storage.reserve(_storageVector[idx].size());
 			std::copy(_storageVector[idx].begin(), _storageVector[idx].end(), std::back_inserter(storage));
 		};
-
+		
 		// Fill in given array storage
-		void ArgVector(size_t idx, U* storage)
+		void arg_vector(size_t idx, U* storage)
 		{
 			if (!storage || idx >= _storageVector.size())
 				return;
@@ -188,19 +219,40 @@ namespace DataLoader
 				*storage++ = U(v);
 		}
 
+		// Return flattened matrix
+		std::vector<U> arg_matrix()
+		{
+			return _storageMatrix();
+		}
+
+		// Fill in given array storage
+		void arg_matrix(U* storage)
+		{
+			if (!storage)
+				return;
+
+			for (auto v : _storageMatrix)
+				*storage++ = U(v);
+		}
+
+		void arg_matrix_dims(int& row, int& col)
+		{
+			row = sizeRow;
+			col = sizeCol;
+		}
+		
 		// Parse input file without data specification
-		void ReadArbitrary(
-			unsigned opts = Flags::ReadSeparately,
-			Kind type = Kind::Arbitrary)
+		void read_arbitrary(unsigned opts = Flags::ReadSeparately, Kind type = Kind::Arbitrary)
 		{}
 
 		// Parse input file for vector-based data
-		void ReadVector(
-			unsigned opts = Flags::VectorNoSize,
-			Kind type = Kind::Vector)
+		void read_vector(unsigned check_opts = Flags::NullOpts, 
+			unsigned parse_opts = Flags_Vector_Parse::ItemsAtOnce, Kind type = Kind::Vector)
 		{
+			size_t lenNextVector{ 0 }, lenAllVectors{ 0 };
 			std::string line, line1, line2;
 			std::fstream fstream;
+			std::istringstream sstream;
 
 			fstream.open(_file, std::ios_base::in);
 
@@ -212,47 +264,55 @@ namespace DataLoader
 
 			_storageVector.clear();
 
-			std::istringstream sstream;
+			// Validate vector length if appropriate option is given
+			bool checkVecLength = parse_opts & Flags_Vector_Parse::Size;
+			// For each vector given check if items number remains the same
+			bool checkVecEquality = check_opts & Flags_Vector_Check::LengthEquality;
+			// If no Size is given and parse option is set to ItemsLineByLine,
+			// we are to read in one vector storage until the end of the file
+			bool readUntilEOF = !checkVecLength && (parse_opts & Flags_Vector_Parse::ItemsLineByLine);
 
-			size_t lenNextVector{ 0 }, lenAllVectors{ 0 };
-
-			// Flags
-			auto checkVecLength = opts & Flags::CheckVectorLength;
-			auto checkVecEquality = opts & Flags::CheckVectorsLenEquality;
-
-			while (std::getline(fstream, line))
+			while (fstream.good())
 			{
-				std::vector<U> item;
+				std::vector<U> storageItem;
 
 				// Read vector's length
-				if (checkVecLength)
+				if (checkVecLength && std::getline(fstream, line))
 				{
 					sstream.str(line);
 					sstream >> lenNextVector;
 					sstream.clear();
 
-					// Read vector's items
-					std::getline(fstream, line);
+					storageItem.reserve(lenNextVector);
+				}
+				
+				size_t line_to_read = { 0 };
+				// How many lines we need to read for a vector to be filled?
+				//  -- if "ReadUntilEOF" flag is set, read until the EOF (lines to read = MAX(size_t))
+				//  -- if "ItemsAtOnce" flag is set, read one line no matter if we are given size or not
+				//  -- last case: flag "ItemsLineByLine" is set and "Size" flag is given, read "LenNextVector" lines
+				line_to_read =
+					readUntilEOF ? std::numeric_limits<std::size_t>::max() :
+					parse_opts & Flags_Vector_Parse::ItemsAtOnce ? 1 :
+					checkVecLength && (parse_opts & Flags_Vector_Parse::ItemsLineByLine) ? lenNextVector : 0;
 
-					if (fstream.rdstate() != std::ios::goodbit)
-					{
-						if (fstream.fail()) _state = State::FileReadFormatError;
-						if (fstream.bad()) _state = State::FileReadFailure;
-						break;
-					}
+				// Above were considered all the possible cases, so this condition will never
+				// be executed, unless new conditions appear
+				if (line_to_read == 0)
+				{
+					_state = State::WrongReadConfiguration;
+					break;
 				}
 
-				if (checkVecLength) item.reserve(lenNextVector);
-
-				// Parse vector's elements
-				Split(line, item);
+				// Load vector's elements
+				split(fstream, storageItem, line_to_read);
 
 				// Check if vectors are equal
 				if (checkVecEquality)
 				{
 					if (lenAllVectors == 0)
-						lenAllVectors = item.size();
-					else if (lenAllVectors != item.size())
+						lenAllVectors = storageItem.size();
+					else if (lenAllVectors != storageItem.size())
 					{
 						_state = State::VectorsHaveDifferentLength;
 						break;
@@ -260,31 +320,40 @@ namespace DataLoader
 				}
 
 				// Check if given length for vector items is valid
-				if (checkVecLength && lenNextVector != item.size())
+				if (checkVecLength && lenNextVector != storageItem.size())
 				{
 					_state = State::VectorItemsWrongNumber;
 					break;
 				}
 
-				_storageVector.push_back(item);
+				// Add vector to the storage
+				_storageVector.push_back(storageItem);
 			}
 
 			fstream.close();
 		}
 
 		// Parse input file for matrix-based data
-		void ReadMatrix(
-			unsigned opts = (Flags::ReadDimentions | Flags::ReadDimOneLine),
-			Kind type = Kind::Matrix)
+		void read_matrix(unsigned check_opts = Flags::NullOpts, 
+			unsigned parse_opts = Flags_Matrix_Parse::DimentionsAtOnce, Kind type = Kind::Matrix)
 		{
 			std::string line, line1, line2;
 			std::fstream fstream;
 			std::stringstream sstream;
 
+			std::vector<U> storageItem;
+
 			fstream.open(_file, std::ios_base::in);
 
-			// Flags::ReadDimentions
-			if (opts & (Flags::ReadDimentions | Flags::ReadDimLineByLine))
+			if (!fstream.is_open())
+			{
+				_state = State::FileAccessError;
+				return;
+			}
+
+			_storageMatrix.clear();
+
+			if (parse_opts & Flags_Matrix_Parse::DimentionsLineByLine)
 			{
 				std::getline(fstream, line1);
 				std::getline(fstream, line2);
@@ -299,15 +368,41 @@ namespace DataLoader
 				sstream >> sizeCol;
 				sstream.clear();
 			}
-
-			// Flags::ReadDimentions
-			if (opts & (Flags::ReadDimentions | Flags::ReadDimOneLine))
+			else if (parse_opts & Flags_Matrix_Parse::DimentionsAtOnce)
 			{
 				std::getline(fstream, line);
 				sstream.str(line);
 				sstream >> sizeRow >> sizeCol;
 				sstream.clear();
 			}
+			else
+			{
+				_state = State::WrongReadConfiguration;
+				return;
+			}
+
+			// Load matrix data
+			_storageMatrix.reserve(sizeRow * sizeCol);
+			storageItem.reserve(sizeCol);
+
+			auto cnt = sizeRow;
+			while (cnt--)
+			{
+				// Load vector's elements
+				storageItem.clear();
+				split(fstream, storageItem, 1);
+
+				std::move(storageItem.begin(), storageItem.end(), std::back_inserter(_storageMatrix));
+			}
+			
+			// Check matrix's elements length
+			if (_storageMatrix.size() != sizeRow * sizeCol)
+			{
+				_state = State::VectorItemsWrongNumber;
+				return;
+			}
+
+			fstream.close();
 		}
 	};
 }
