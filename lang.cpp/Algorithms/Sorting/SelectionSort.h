@@ -5,7 +5,7 @@
 
 #include "../Abstractions/SortingBase.h"
 
-class BubbleSort : SortingBase
+class SelectionSort : SortingBase
 {
 
 public:
@@ -14,4 +14,3 @@ public:
 
 	void DoSort(vector<int>& arr, int begin, int end);
 };
-
