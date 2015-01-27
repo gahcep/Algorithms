@@ -66,12 +66,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Sorting\BubbleSort.cpp" />
     <ClCompile Include="Fibonacci.cpp" />
     <ClCompile Include="Sorting\MergeSort.cpp" />
     <ClCompile Include="Sorting\QuickSort.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Abstractions\SortingBase.h" />
+    <ClInclude Include="Sorting\BubbleSort.h" />
     <ClInclude Include="Fibonacci.h" />
     <ClInclude Include="Sorting\MergeSort.h" />
     <ClInclude Include="Sorting\QuickSort.h" />

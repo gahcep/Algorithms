@@ -22,11 +22,13 @@ int QuickSort::Partition(vector<int>& arr, int left, int rigth)
 	int i = left;
 	int j = rigth + 1;
 
+	int pivot = arr[left];
+
 	// Pivot is first element
 	while (true)
 	{
 		// Run from left to right looking values greater than our Pivot
-		while (arr[++i] < arr[left])
+		while (arr[++i] < pivot)
 		{
 			// Reach the end?
 			if (i == rigth)
@@ -34,7 +36,7 @@ int QuickSort::Partition(vector<int>& arr, int left, int rigth)
 		}
 
 		// Look for values less than initial element (pivot)
-		while (arr[--j] > arr[left])
+		while (arr[--j] > pivot)
 		{
 			// Reach the begining?
 			if (j == left)
@@ -51,9 +53,8 @@ int QuickSort::Partition(vector<int>& arr, int left, int rigth)
 		arr[i] = tmp;
 	}
 
-	int tmp = arr[left];
 	arr[left] = arr[j];
-	arr[j] = tmp;
+	arr[j] = pivot;
 
 	// Take j as Pivot Position
 	return j;
