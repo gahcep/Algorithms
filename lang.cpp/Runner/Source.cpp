@@ -5,7 +5,7 @@
 
 #include "../TPL/DataLoader.hpp"
 
-#include "../Algorithms/Abstractions/SortingBase.h"
+#include "../Algorithms/Abstractions/GenericSortBase.h"
 
 
 //#include "../Algorithms/Sorting/QuickSort.h"
@@ -15,17 +15,7 @@
 //#include "../Algorithms/Sorting/InsertionSort.h"
 //#include "../Algorithms/Fibonacci/Fibonacci.h"
 
-using namespace std;
-
-template <class Cont>
-struct test {
-
-	void run(Cont&) {};
-};
-
-template <class Cont>
-struct test_no {
-};
+using std::vector;
 
 int main(int argc, char** argv)
 {

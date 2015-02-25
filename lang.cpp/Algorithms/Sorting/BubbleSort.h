@@ -1,31 +1,17 @@
 #pragma once
+#include "../Abstractions/TypePredicates.h"
 
-//template <class Cont>
-//struct HasConstIterator
-//{
-//private:
-//	typedef char match_type;
-//	typedef long unmatch_type;
-//
-//	template<class T>
-//	static match_type checker(typename T::const_iterator *);
-//
-//	template<class T>
-//	static unmatch_type checker(...);
-//
-//public:
-//
-//	const static bool value = (sizeof(checker<Cont>(0)) == sizeof(match_type));
-//};
+// Include in <HasProperAlgoType> type
+PROPER_SORTING_ALGORITHM(BubbleSort)
 
 template <class Cont>
 struct BubbleSort
 {
 	// Check that container type provided
-	//static_assert(HasConstIterator<Cont>::value, "Please provide a container type");
+	static_assert(HasConstIterator<Cont>::value, "Please provide a container type");
 
 	// Check that value_type of a container is of integral type
-	//static_assert(std::is_arithmetic<typename Cont::value_type>::value, "Container's elements should be of integral type");
+	static_assert(std::is_arithmetic<typename Cont::value_type>::value, "Container's elements should be of integral type");
 
 	auto run(Cont & container) -> void
 	{
@@ -52,7 +38,7 @@ private:
 			{
 				if (container[j] > container[j + 1])
 				{
-					int tmp = container[j];
+					Cont::value_type tmp = container[j];
 					container[j] = container[j + 1];
 					container[j + 1] = tmp;
 
@@ -65,3 +51,5 @@ private:
 		}
 	}
 };
+
+

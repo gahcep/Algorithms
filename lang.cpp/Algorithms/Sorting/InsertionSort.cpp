@@ -1,3 +1,4 @@
+#pragma once
 #include "InsertionSort.h"
 
 void InsertionSort::Run(vector<int>& vec)

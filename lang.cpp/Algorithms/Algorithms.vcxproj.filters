@@ -18,9 +18,6 @@
     <ClCompile Include="Sorting\MergeSort.cpp">
       <Filter>Sorting</Filter>
     </ClCompile>
-    <ClCompile Include="Sorting\BubbleSort.cpp">
-      <Filter>Sorting</Filter>
-    </ClCompile>
     <ClCompile Include="Sorting\SelectionSort.cpp">
       <Filter>Sorting</Filter>
     </ClCompile>
@@ -52,6 +49,15 @@
     </ClInclude>
     <ClInclude Include="Sorting\InsertionSort.h">
       <Filter>Sorting</Filter>
+    </ClInclude>
+    <ClInclude Include="Abstractions\TypePredicates.h">
+      <Filter>Abstractions</Filter>
+    </ClInclude>
+    <ClInclude Include="Abstractions\GenericSortBase.h">
+      <Filter>Abstractions</Filter>
+    </ClInclude>
+    <ClInclude Include="Abstractions\SortSpecializations.h">
+      <Filter>Abstractions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

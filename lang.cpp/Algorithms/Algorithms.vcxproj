@@ -69,12 +69,14 @@
     <ClCompile Include="Fibonacci\Fibonacci.cpp" />
     <ClCompile Include="Sorting\InsertionSort.cpp" />
     <ClCompile Include="Sorting\SelectionSort.cpp" />
-    <ClCompile Include="Sorting\BubbleSort.cpp" />
     <ClCompile Include="Sorting\MergeSort.cpp" />
     <ClCompile Include="Sorting\QuickSort.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Abstractions\GenericSortBase.h" />
     <ClInclude Include="Abstractions\SortingBase.h" />
+    <ClInclude Include="Abstractions\SortSpecializations.h" />
+    <ClInclude Include="Abstractions\TypePredicates.h" />
     <ClInclude Include="Fibonacci\Fibonacci.h" />
     <ClInclude Include="Sorting\InsertionSort.h" />
     <ClInclude Include="Sorting\SelectionSort.h" />
