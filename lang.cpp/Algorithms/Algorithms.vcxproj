@@ -67,11 +67,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Fibonacci\Fibonacci.cpp" />
-    <ClCompile Include="Sorting\MergeSort.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Abstractions\GenericSortBase.h" />
-    <ClInclude Include="Abstractions\SortingBase.h" />
     <ClInclude Include="Abstractions\TypePredicates.h" />
     <ClInclude Include="Fibonacci\Fibonacci.h" />
     <ClInclude Include="Sorting\InsertionSort.h" />

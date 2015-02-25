@@ -8,7 +8,7 @@
 #include "../Algorithms/Abstractions/GenericSortBase.h"
 
 #include "../Algorithms/Sorting/QuickSort.h"
-//#include "../Algorithms/Sorting/MergeSort.h"
+#include "../Algorithms/Sorting/MergeSort.h"
 #include "../Algorithms/Sorting/BubbleSort.h"
 #include "../Algorithms/Sorting/SelectionSort.h"
 #include "../Algorithms/Sorting/InsertionSort.h"
@@ -43,33 +43,15 @@ int main(int argc, char** argv)
 	GenericSort<vector<float>, InsertionSort> is(vec_random);
 	GenericSort<vector<float>, SelectionSort> ss(vec_random);
 	GenericSort<vector<float>, QuickSort> qs(vec_random);
+	GenericSort<vector<float>, MergeSort> ms(vec_random);
 	
 	bs.RunSort();
 	is.RunSort();
 	ss.RunSort();
 	qs.RunSort();
+	ms.RunSort();
 
 	auto n = 0;
-
-	//// InsertionSort
-	//auto isort = unique_ptr<InsertionSort>(new InsertionSort());
-	//isort->Run(vec_random);
-
-	//// SelectionSort
-	//auto ssort = unique_ptr<SelectionSort>(new SelectionSort());
-	//ssort->Run(vec_random);
-
-	//// BubbleSort
-	//auto bsort = unique_ptr<BubbleSort>(new BubbleSort());
-	//bsort->Run(vec_random);
-
-	//// QuickSort
-	//auto qsort = unique_ptr<QuickSort>(new QuickSort());
-	//qsort->Run(vec_random);
-
-	//// MergeSort
-	//auto msort = unique_ptr<MergeSort>(new MergeSort());
-	//msort->Run(vec_random);
 
 	//// Fibonacci
 	//auto fibo = unique_ptr<Fibonacci>(new Fibonacci());
