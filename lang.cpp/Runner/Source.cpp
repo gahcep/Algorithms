@@ -12,8 +12,7 @@
 //#include "../Algorithms/Sorting/MergeSort.h"
 #include "../Algorithms/Sorting/BubbleSort.h"
 //#include "../Algorithms/Sorting/SelectionSort.h"
-//#include "../Algorithms/Sorting/InsertionSort.h"
-//#include "../Algorithms/Fibonacci/Fibonacci.h"
+#include "../Algorithms/Sorting/InsertionSort.h"
 
 using std::vector;
 
@@ -42,7 +41,10 @@ int main(int argc, char** argv)
 	loader.arg_vector(0, vec_random2);
 
 	GenericSort<vector<float>, BubbleSort> bs(vec_random);
+	GenericSort<vector<float>, InsertionSort> is(vec_random);
+	
 	bs.RunSort();
+	is.RunSort();
 
 	auto n = 0;
 

@@ -24,9 +24,6 @@
     <ClCompile Include="Fibonacci\Fibonacci.cpp">
       <Filter>Fibonacci</Filter>
     </ClCompile>
-    <ClCompile Include="Sorting\InsertionSort.cpp">
-      <Filter>Sorting</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sorting\QuickSort.h">

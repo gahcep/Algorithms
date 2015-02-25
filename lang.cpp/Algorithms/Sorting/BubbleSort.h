@@ -11,7 +11,7 @@ struct BubbleSort
 	static_assert(HasConstIterator<Cont>::value, "Please provide a container type");
 
 	// Check that value_type of a container is of integral type
-	static_assert(std::is_arithmetic<typename Cont::value_type>::value, "Container's elements should be of integral type");
+	static_assert(HasArithmeticType<Cont>::value, "Container's elements should be of integral type");
 
 	auto run(Cont & container) -> void
 	{
@@ -51,5 +51,3 @@ private:
 		}
 	}
 };
-
-

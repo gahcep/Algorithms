@@ -67,7 +67,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Fibonacci\Fibonacci.cpp" />
-    <ClCompile Include="Sorting\InsertionSort.cpp" />
     <ClCompile Include="Sorting\SelectionSort.cpp" />
     <ClCompile Include="Sorting\MergeSort.cpp" />
     <ClCompile Include="Sorting\QuickSort.cpp" />
