@@ -7,11 +7,10 @@
 
 #include "../Algorithms/Abstractions/GenericSortBase.h"
 
-
 //#include "../Algorithms/Sorting/QuickSort.h"
 //#include "../Algorithms/Sorting/MergeSort.h"
 #include "../Algorithms/Sorting/BubbleSort.h"
-//#include "../Algorithms/Sorting/SelectionSort.h"
+#include "../Algorithms/Sorting/SelectionSort.h"
 #include "../Algorithms/Sorting/InsertionSort.h"
 
 using std::vector;
@@ -42,9 +41,11 @@ int main(int argc, char** argv)
 
 	GenericSort<vector<float>, BubbleSort> bs(vec_random);
 	GenericSort<vector<float>, InsertionSort> is(vec_random);
+	GenericSort<vector<float>, SelectionSort> ss(vec_random);
 	
 	bs.RunSort();
 	is.RunSort();
+	ss.RunSort();
 
 	auto n = 0;
 
