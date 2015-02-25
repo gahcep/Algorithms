@@ -12,31 +12,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Sorting\QuickSort.cpp">
-      <Filter>Sorting</Filter>
-    </ClCompile>
-    <ClCompile Include="Sorting\MergeSort.cpp">
-      <Filter>Sorting</Filter>
-    </ClCompile>
-    <ClCompile Include="Sorting\BubbleSort.cpp">
-      <Filter>Sorting</Filter>
-    </ClCompile>
-    <ClCompile Include="Sorting\SelectionSort.cpp">
-      <Filter>Sorting</Filter>
-    </ClCompile>
     <ClCompile Include="Fibonacci\Fibonacci.cpp">
       <Filter>Fibonacci</Filter>
-    </ClCompile>
-    <ClCompile Include="Sorting\InsertionSort.cpp">
-      <Filter>Sorting</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sorting\QuickSort.h">
       <Filter>Sorting</Filter>
-    </ClInclude>
-    <ClInclude Include="Abstractions\SortingBase.h">
-      <Filter>Abstractions</Filter>
     </ClInclude>
     <ClInclude Include="Sorting\MergeSort.h">
       <Filter>Sorting</Filter>
@@ -52,6 +34,12 @@
     </ClInclude>
     <ClInclude Include="Sorting\InsertionSort.h">
       <Filter>Sorting</Filter>
+    </ClInclude>
+    <ClInclude Include="Abstractions\TypePredicates.h">
+      <Filter>Abstractions</Filter>
+    </ClInclude>
+    <ClInclude Include="Abstractions\GenericSortBase.h">
+      <Filter>Abstractions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,16 +1,54 @@
 #pragma once
+#include "../Abstractions/TypePredicates.h"
 
-#include <vector>
-#include <iostream>
+// Include in <HasProperAlgoType> type
+PROPER_SORTING_ALGORITHM(InsertionSort)
 
-#include "../Abstractions/SortingBase.h"
-
-class InsertionSort : SortingBase
+template <class Cont>
+struct InsertionSort
 {
+	// Check that container type provided
+	static_assert(HasConstIterator<Cont>::value, "Please provide a container type");
 
-public:
+	// Check that value_type of a container is of integral type
+	static_assert(HasArithmeticType<Cont>::value, "Container's elements should be of integral type");
 
-	void Run(vector<int>& vec) override;
+	auto run(Cont & container) -> void
+	{
+		sort(container, 0, container.size() - 1);
+	}
 
-	void DoSort(vector<int>& arr, int begin, int end);
+private:
+
+	auto sort(Cont & container, typename Cont::value_type beginPos, typename Cont::value_type endPos) -> void
+	{
+		Cont::value_type next = 0;
+		size_t j = 0;
+
+		// We are done when boundaries are wrong
+		if (beginPos >= endPos)
+			return;
+
+		size_t len = container.size();
+
+		// Loop over all items excluding first one
+		for (size_t i = 1; i < len; i++)
+		{
+			// Extract next item
+			next = container[i];
+
+			// <j> determines the starting point for inner loop
+			j = i;
+
+			// Transit items in sorting part of the array that greater than <next> to the right
+			while (j > 0 && next < container[j - 1])
+			{
+				container[j] = container[j - 1];
+				j--;
+			}
+
+			// Insert <next> item
+			container[j] = next;
+		}
+	}
 };
