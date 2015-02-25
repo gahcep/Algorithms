@@ -12,9 +12,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Sorting\QuickSort.cpp">
-      <Filter>Sorting</Filter>
-    </ClCompile>
     <ClCompile Include="Sorting\MergeSort.cpp">
       <Filter>Sorting</Filter>
     </ClCompile>

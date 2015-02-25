@@ -68,7 +68,6 @@
   <ItemGroup>
     <ClCompile Include="Fibonacci\Fibonacci.cpp" />
     <ClCompile Include="Sorting\MergeSort.cpp" />
-    <ClCompile Include="Sorting\QuickSort.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Abstractions\GenericSortBase.h" />
