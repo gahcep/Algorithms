@@ -35,7 +35,7 @@ private:
 		for (size_t i = 1; i < len; i++)
 		{
 			// Extract next item
-			next = container[i];
+			next = container[i]; // i is the same as j
 
 			// <j> determines the starting point for inner loop
 			j = i;
@@ -43,6 +43,8 @@ private:
 			// Transit items in sorting part of the array that greater than <next> to the right
 			while (j > 0 && next < container[j - 1])
 			{
+				// Shifting item in the sorted part of the array one position right 
+				// We don't care about value in container[j], because it's saved in <next> variable
 				container[j] = container[j - 1];
 				j--;
 			}
