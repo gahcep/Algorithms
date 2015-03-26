@@ -40,7 +40,7 @@ private:
 		// Pivot is first element
 		while (true)
 		{
-			// Run from left to right looking values greater than our Pivot
+			// Run from left to right looking for values greater than our Pivot
 			while (container[++i] < pivot)
 			{
 				// Reach the end?
@@ -48,10 +48,10 @@ private:
 					break;
 			}
 
-			// Look for values less than initial element (pivot)
+			// Run from right to left looking for values less than ut Pivot
 			while (container[--j] > pivot)
 			{
-				// Reach the begining?
+				// Reach the beginning?
 				if (j == left)
 					break;
 			}
@@ -69,7 +69,7 @@ private:
 		container[left] = container[j];
 		container[j] = pivot;
 
-		// Take j as Pivot Position
+		// Take j as a new Pivot
 		return j;
 	}
 };
