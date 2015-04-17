@@ -10,6 +10,9 @@
     <Filter Include="Fibonacci">
       <UniqueIdentifier>{11bc16bf-d86a-47bc-aedf-aa8e69572506}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Trees">
+      <UniqueIdentifier>{9e967985-53ae-4657-b810-9c2e71859134}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Fibonacci\Fibonacci.cpp">
@@ -40,6 +43,9 @@
     </ClInclude>
     <ClInclude Include="Abstractions\GenericSortBase.h">
       <Filter>Abstractions</Filter>
+    </ClInclude>
+    <ClInclude Include="Trees\BinaryHeap.hpp">
+      <Filter>Trees</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
