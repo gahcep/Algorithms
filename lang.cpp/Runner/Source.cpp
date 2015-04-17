@@ -13,6 +13,8 @@
 #include "../Algorithms/Sorting/SelectionSort.h"
 #include "../Algorithms/Sorting/InsertionSort.h"
 
+#include "../Algorithms/Trees/BinaryHeap.hpp"
+
 using std::vector;
 
 int main(int argc, char** argv)

@@ -77,6 +77,7 @@
     <ClInclude Include="Sorting\BubbleSort.h" />
     <ClInclude Include="Sorting\MergeSort.h" />
     <ClInclude Include="Sorting\QuickSort.h" />
+    <ClInclude Include="Trees\BinaryHeap.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
