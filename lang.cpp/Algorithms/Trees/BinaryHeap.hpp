@@ -154,7 +154,7 @@ auto Heap<Cont>::left(size_t idx) const -> std::pair<bool, T>
 
 	std::pair<bool, T> value = std::make_pair<bool, T>(false, T{});
 
-	size_t left = 2 * parent + 1;
+	size_t left = 2 * idx + 1;
 	if (left < heap_.size())
 	{
 		value.first = true;
@@ -172,7 +172,7 @@ auto Heap<Cont>::right(size_t idx) const -> std::pair<bool, T>
 
 	std::pair<bool, Cont::value_type> value = std::make_pair<bool, Cont::value_type>(false, Cont::value_type{});
 
-	size_t right = 2 * parent + 2;
+	size_t right = 2 * idx + 2;
 	if (right < heap_.size())
 	{
 		value.first = true;
@@ -273,6 +273,8 @@ auto Heap<Cont>::is_heap(Cont& values) -> bool
 		if (right < values.size() && values[right] < values[i])
 			return false;
 	}
+
+	return true;
 }
 
 template <class Cont>
