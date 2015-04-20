@@ -37,9 +37,6 @@ private:
 
 		container.clear();
 		while (!binary_heap.empty())
-		{
-			std::cout << binary_heap.get_min() << std::endl;
 			container.push_back(binary_heap.extract_min());
-		}
 	}
 };
