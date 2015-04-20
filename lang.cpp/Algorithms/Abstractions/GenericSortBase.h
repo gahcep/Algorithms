@@ -35,9 +35,17 @@ public:
 		const Derived& derived = static_cast<const Derived&>(*this);
 
 		// [#]
-		// However the innner container can be changed
+		// However the inner container can be changed
 		kind.run(const_cast<Cont&>(derived.cont));
 	};
+
+	auto Sorted() const -> Cont
+	{
+		// Take const reference
+		const Derived& derived = static_cast<const Derived&>(*this);
+
+		return derived.cont;
+	}
 };
 
 //template<class Cont, template <class, class> class Kind> <-- second parameter will accept [vector]

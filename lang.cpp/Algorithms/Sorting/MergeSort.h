@@ -27,7 +27,7 @@ private:
 
 	auto SortAndMerge(Cont& container) -> Cont
 	{
-		if (container.size() == 1)
+		if (container.size() <= 1)
 			return container;
 
 		if (container.size() == 2)
