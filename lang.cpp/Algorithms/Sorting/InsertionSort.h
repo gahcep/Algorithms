@@ -8,19 +8,23 @@ template <class Cont>
 struct InsertionSort
 {
 	// Check that container type provided
-	static_assert(HasConstIterator<Cont>::value, "Please provide a container type");
+	static_assert(HasConstIterator<Cont>::value, "Please provide a valid container type with const iterator");
 
 	// Check that value_type of a container is of integral type
 	static_assert(HasArithmeticType<Cont>::value, "Container's elements should be of integral type");
 
-	auto run(Cont & container) -> void
+	// Check that container has random access iterator
+	static_assert(HasRandomAccessIterator<Cont>::value,
+		"Please provide a valid container type with random access iterator");
+
+	auto run(Cont& container) -> void
 	{
 		sort(container, 0, container.size() - 1);
 	}
 
 private:
 
-	auto sort(Cont & container, typename Cont::value_type beginPos, typename Cont::value_type endPos) -> void
+	auto sort(Cont& container, typename Cont::value_type beginPos, typename Cont::value_type endPos) -> void
 	{
 		Cont::value_type next = 0;
 		size_t j = 0;

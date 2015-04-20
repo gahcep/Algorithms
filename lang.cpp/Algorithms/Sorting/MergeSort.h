@@ -8,12 +8,16 @@ template <class Cont>
 struct MergeSort
 {
 	// Check that container type provided
-	static_assert(HasConstIterator<Cont>::value, "Please provide a container type");
+	static_assert(HasConstIterator<Cont>::value, "Please provide a valid container type with const iterator");
 
 	// Check that value_type of a container is of integral type
 	static_assert(HasArithmeticType<Cont>::value, "Container's elements should be of integral type");
 
-	auto run(Cont & container) -> void
+	// Check that container has random access iterator
+	static_assert(HasRandomAccessIterator<Cont>::value,
+		"Please provide a valid container type with random access iterator");
+
+	auto run(Cont& container) -> void
 	{
 		auto result = SortAndMerge(container, 0, container.size() - 1);
 		std::swap(container, result);
@@ -21,7 +25,7 @@ struct MergeSort
 
 private:
 
-	auto SortAndMerge(Cont & container, typename Cont::value_type beginPos, typename Cont::value_type endPos) -> Cont
+	auto SortAndMerge(Cont& container, typename Cont::value_type beginPos, typename Cont::value_type endPos) -> Cont
 	{
 		if (container.size() == 1)
 			return container;
