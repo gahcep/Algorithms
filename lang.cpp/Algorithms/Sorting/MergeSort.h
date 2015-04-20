@@ -19,13 +19,13 @@ struct MergeSort
 
 	auto run(Cont& container) -> void
 	{
-		auto result = SortAndMerge(container, 0, container.size() - 1);
+		auto result = SortAndMerge(container);
 		std::swap(container, result);
 	}
 
 private:
 
-	auto SortAndMerge(Cont& container, typename Cont::value_type beginPos, typename Cont::value_type endPos) -> Cont
+	auto SortAndMerge(Cont& container) -> Cont
 	{
 		if (container.size() == 1)
 			return container;
@@ -47,8 +47,8 @@ private:
 		std::copy(container.begin() + midPos, container.end(), inSub2.begin());
 
 		// Halving input array
-		auto sub1 = SortAndMerge(inSub1, 0, midPos - 1);
-		auto sub2 = SortAndMerge(inSub2, midPos, container.size() - 1);
+		auto sub1 = SortAndMerge(inSub1);
+		auto sub2 = SortAndMerge(inSub2);
 
 		// Combine sorted arrays
 		return Combine(sub1, sub2);

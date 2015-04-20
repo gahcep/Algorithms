@@ -15,19 +15,14 @@ struct SelectionSort
 
 	auto run(Cont& container) -> void
 	{
-		sort(container, 0, container.size() - 1);
+		sort(container);
 	}
 
 private:
 
-	auto sort(Cont& container, typename Cont::value_type beginPos, typename Cont::value_type endPos) -> void
+	auto sort(Cont& container) -> void
 	{
 		Cont::value_type min_idx = 0;
-		Cont::value_type tmp = 0;
-
-		// We are done when boundaries are wrong
-		if (beginPos >= endPos)
-			return;
 
 		size_t len = container.size();
 
