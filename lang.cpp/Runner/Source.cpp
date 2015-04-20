@@ -12,8 +12,7 @@
 #include "../Algorithms/Sorting/BubbleSort.h"
 #include "../Algorithms/Sorting/SelectionSort.h"
 #include "../Algorithms/Sorting/InsertionSort.h"
-
-#include "../Algorithms/Trees/BinaryHeap.hpp"
+#include "../Algorithms/Sorting/HeapSort.h"
 
 using std::vector;
 
@@ -46,21 +45,14 @@ int main(int argc, char** argv)
 	GenericSort<vector<float>, SelectionSort> ss(vec_random);
 	GenericSort<vector<float>, QuickSort> qs(vec_random);
 	GenericSort<vector<float>, MergeSort> ms(vec_random);
+	GenericSort<vector<float>, HeapSort> hs(vec_random);
 	
 	bs.RunSort();
 	is.RunSort();
 	ss.RunSort();
 	qs.RunSort();
 	ms.RunSort();
+	hs.RunSort();
 
 	auto n = 0;
-
-	//// Fibonacci
-	//auto fibo = unique_ptr<Fibonacci>(new Fibonacci());
-	//auto found_num = fibo->NaiveSolve(7);
-
-	//found_num = fibo->ArraySolve(70, true);
-	//found_num = fibo->FindLastDigit(18);
-
-	//auto v = 0;
 }
