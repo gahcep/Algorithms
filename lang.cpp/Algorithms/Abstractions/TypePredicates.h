@@ -1,6 +1,13 @@
 #pragma once
 #include <vector>
 #include <type_traits>
+#include <iterator>
+
+/*
+	PROPER_SORTING_ALGORITHM:
+	Part 1: Declaration of the used algorithm
+	Part 2: Partial template specialization for the algorithm
+*/
 
 #define PROPER_SORTING_ALGORITHM(_X_) \
 									  \
@@ -12,6 +19,7 @@
 										static const bool value = true; \
 									};
 
+/* Check for [auto run(Cont& container) -> void] method */
 template <class Inst, class Cont>
 struct HasRunMethod
 {
@@ -48,6 +56,14 @@ private:
 public:
 
 	const static bool value = (sizeof(checker<Cont>(nullptr)) == sizeof(match_type));
+};
+
+template<class Cont>
+struct HasRandomAccessIterator
+{
+	using Iter = typename Cont::iterator;
+
+	const static bool value = std::is_same<typename std::iterator_traits<Iter>::iterator_category, std::random_access_iterator_tag>::value;
 };
 
 template<class Cont, class Kind>
