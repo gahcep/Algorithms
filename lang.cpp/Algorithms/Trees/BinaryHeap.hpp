@@ -1,21 +1,29 @@
+#pragma once
 #include <vector>
 #include <initializer_list>
 #include <stdexcept>
 
-template <class T>
+#include "../Abstractions/TypePredicates.h"
+
+template <class Cont>
 class Heap
 {
 	// Allow only integral or floating-point types
-	static_assert(std::is_arithmetic<T>::value, "Given type not allowed");
+	static_assert(std::is_arithmetic<typename Cont::value_type>::value, "Given type not allowed");
 
+	// Check that container has random access iterator
+	static_assert(HasRandomAccessIterator<Cont>::value,
+		"Please provide a valid container type with random access iterator");
 public:
 
+	using T = typename Cont::value_type;
+
 	// Default ctor
-	Heap() { };
+	Heap() {};
 	// Custom ctor
 	Heap(std::initializer_list<T> values) { make_heap(values); }
 	// Custom ctor
-	Heap(std::vector<T>& values) { make_heap(values); }
+	Heap(Cont& values) { make_heap(values); }
 	// Copy ctor
 	Heap(const Heap& other) 
 	{
@@ -53,14 +61,14 @@ public:
 	inline auto size() const -> size_t { return heap_.size(); }
 
 	auto is_heap(std::initializer_list<T> list) -> bool;
-	auto is_heap(std::vector<T>& list) -> bool;
+	auto is_heap(Cont& list) -> bool;
 
 	auto has_childs(size_t idx) const -> std::pair<bool, bool>;
 	auto get_childs(size_t idx) const -> std::pair<T, T>;
 
 	auto make_heap(std::initializer_list<T> values) -> void;
-	auto make_heap(std::vector<T>& values) -> void;
-	auto make_heap(std::vector<T>&& values) -> void;
+	auto make_heap(Cont& values) -> void;
+	auto make_heap(Cont&& values) -> void;
 
 	auto insert(T key) -> void;
 	
@@ -79,12 +87,12 @@ private:
 	auto sift_down(size_t idx) -> void;
 	auto make_heap() -> void;
 
-	std::vector<int> heap_;
+	Cont heap_;
 
 };
 
-template <class T>
-auto Heap<T>::print() const -> void
+template <class Cont>
+auto Heap<Cont>::print() const -> void
 {
 	if (empty())
 		std::cout << "Heap is empty" << std::endl;
@@ -93,9 +101,11 @@ auto Heap<T>::print() const -> void
 		std::cout << x << " " << std::endl;
 }
 
-template <class T>
-auto Heap<T>::sift_up(size_t idx) -> void
+template <class Cont>
+auto Heap<Cont>::sift_up(size_t idx) -> void
 {
+	if (heap_.empty()) return;
+
 	if (idx >= heap_.size())
 		throw std::length_error("sift_down(): Index out of range");
 
@@ -110,9 +120,11 @@ auto Heap<T>::sift_up(size_t idx) -> void
 	}
 }
 
-template <class T>
-auto Heap<T>::sift_down(size_t idx) -> void
+template <class Cont>
+auto Heap<Cont>::sift_down(size_t idx) -> void
 {
+	if (heap_.empty()) return;
+
 	if (idx >= heap_.size())
 		throw std::length_error("sift_down(): Index out of range");
 
@@ -134,8 +146,8 @@ auto Heap<T>::sift_down(size_t idx) -> void
 	}
 }
 
-template <class T>
-auto Heap<T>::left(size_t idx) const -> std::pair<bool, T>
+template <class Cont>
+auto Heap<Cont>::left(size_t idx) const -> std::pair<bool, T>
 {
 	if (idx >= heap_.size())
 		throw std::length_error("left(): Index out of range");
@@ -152,13 +164,13 @@ auto Heap<T>::left(size_t idx) const -> std::pair<bool, T>
 	return value;
 }
 
-template <class T>
-auto Heap<T>::right(size_t idx) const -> std::pair<bool, T>
+template <class Cont>
+auto Heap<Cont>::right(size_t idx) const -> std::pair<bool, T>
 {
 	if (idx >= heap_.size())
 		throw std::length_error("right(): Index out of range");
 
-	std::pair<bool, T> value = std::make_pair<bool, T>(false, T{});
+	std::pair<bool, Cont::value_type> value = std::make_pair<bool, Cont::value_type>(false, Cont::value_type{});
 
 	size_t right = 2 * parent + 2;
 	if (right < heap_.size())
@@ -170,8 +182,8 @@ auto Heap<T>::right(size_t idx) const -> std::pair<bool, T>
 	return value;
 }
 
-template <class T>
-auto Heap<T>::parent(size_t idx) const -> T
+template <class Cont>
+auto Heap<Cont>::parent(size_t idx) const -> T
 {
 	if (idx >= heap_.size())
 		throw std::length_error("parent(): Index out of range");
@@ -181,23 +193,23 @@ auto Heap<T>::parent(size_t idx) const -> T
 	return heap_[(idx - 1) / 2];
 }
 
-template <class T>
-auto Heap<T>::insert(T key) -> void
+template <class Cont>
+auto Heap<Cont>::insert(T key) -> void
 {
 	heap_.push_back(key);
 	sift_up(heap_.size() - 1);
 }
 
-template <class T>
-auto Heap<T>::get_min() const -> T
+template <class Cont>
+auto Heap<Cont>::get_min() const -> T
 {
 	return heap_[0];
 }
 
-template <class T>
-auto Heap<T>::extract_min() -> T
+template <class Cont>
+auto Heap<Cont>::extract_min() -> T
 {
-	T value = heap_[0];
+	Cont::value_type value = heap_[0];
 	
 	heap_[0] = heap_[heap_.size() - 1];
 	heap_.erase(heap_.end() - 1);
@@ -207,8 +219,8 @@ auto Heap<T>::extract_min() -> T
 	return value;
 }
 
-template <class T>
-auto Heap<T>::make_heap() -> void
+template <class Cont>
+auto Heap<Cont>::make_heap() -> void
 {
 	if (heap_.size() == 0)
 		throw std::length_error("make_heap(): Heap is empty");
@@ -221,35 +233,35 @@ auto Heap<T>::make_heap() -> void
 		sift_down(i);
 }
 
-template <class T>
-auto Heap<T>::make_heap(std::initializer_list<T> values) -> void
+template <class Cont>
+auto Heap<Cont>::make_heap(std::initializer_list<T> values) -> void
 {
 	heap_ = values;
 	make_heap();
 }
 
-template <class T>
-auto Heap<T>::make_heap(std::vector<T>& values) -> void
+template <class Cont>
+auto Heap<Cont>::make_heap(Cont& values) -> void
 {
 	heap_ = values;
 	make_heap();
 }
 
-template <class T>
-auto Heap<T>::make_heap(std::vector<T>&& values) -> void
+template <class Cont>
+auto Heap<Cont>::make_heap(Cont&& values) -> void
 {
 	heap_ = std::move(values);
 	make_heap();
 }
 
-template <class T>
-auto Heap<T>::is_heap(std::initializer_list<T> values) -> bool
+template <class Cont>
+auto Heap<Cont>::is_heap(std::initializer_list<T> values) -> bool
 {
-	return is_heap(std::move(std::vector<T>{ values }));
+	return is_heap(std::move(Cont{ values }));
 }
 
-template <class T>
-auto Heap<T>::is_heap(std::vector<T>& values) -> bool
+template <class Cont>
+auto Heap<Cont>::is_heap(Cont& values) -> bool
 {
 	size_t left, right, bound = values.size() / 2 - 1;
 	for (int i = 0; i <= bound; i++)
@@ -263,22 +275,22 @@ auto Heap<T>::is_heap(std::vector<T>& values) -> bool
 	}
 }
 
-template <class T>
-auto Heap<T>::has_childs(size_t idx) const -> std::pair<bool, bool>
+template <class Cont>
+auto Heap<Cont>::has_childs(size_t idx) const -> std::pair<bool, bool>
 {
 	auto idx_left = idx * 2 + 1;
 	auto idx_right = idx_left + 1;
 
-	return std::make_pair<T, T>(idx_left < heap_.size(), idx_right < heap_.size());
+	return std::make_pair<Cont::value_type, Cont::value_type>(idx_left < heap_.size(), idx_right < heap_.size());
 }
 
-template <class T>
-auto Heap<T>::get_childs(size_t idx) const -> std::pair<T, T>
+template <class Cont>
+auto Heap<Cont>::get_childs(size_t idx) const -> std::pair<T, T>
 {
 	auto idx_left = idx * 2 + 1;
 	auto idx_right = idx_left + 1;
 
-	return std::make_pair<T, T>(
-		idx_left < heap_.size() ? heap_[idx_left] : T{}, 
-		idx_right < heap_.size() ? heap_[idx_right] : T{});
+	return std::make_pair<Cont::value_type, Cont::value_type>(
+		idx_left < heap_.size() ? heap_[idx_left] : Cont::value_type{},
+		idx_right < heap_.size() ? heap_[idx_right] : Cont::value_type{});
 }
