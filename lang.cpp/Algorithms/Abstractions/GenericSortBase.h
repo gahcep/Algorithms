@@ -32,7 +32,7 @@ public:
 	auto RunSort() -> void
 	{
 		// Take const reference
-		const Derived & derived = static_cast<const Derived &>(*this);
+		const Derived& derived = static_cast<const Derived&>(*this);
 
 		// [#]
 		// However the innner container can be changed
@@ -54,12 +54,12 @@ class GenericSort : public Base<GenericSort<Cont, Kind>, Cont, Kind>
 
 public:
 
-	explicit GenericSort(const Cont & container) : cont(container)
+	explicit GenericSort(const Cont& container) : cont(container)
 	{
 		auto a = 0;
 	};
 
-	explicit GenericSort(Cont && container) : cont(std::move(container))
+	explicit GenericSort(Cont&& container) : cont(std::move(container))
 	{
 		auto a = 0;
 	};

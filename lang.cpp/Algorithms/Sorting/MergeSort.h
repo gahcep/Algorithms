@@ -8,20 +8,24 @@ template <class Cont>
 struct MergeSort
 {
 	// Check that container type provided
-	static_assert(HasConstIterator<Cont>::value, "Please provide a container type");
+	static_assert(HasConstIterator<Cont>::value, "Please provide a valid container type with const iterator");
 
 	// Check that value_type of a container is of integral type
 	static_assert(HasArithmeticType<Cont>::value, "Container's elements should be of integral type");
 
-	auto run(Cont & container) -> void
+	// Check that container has random access iterator
+	static_assert(HasRandomAccessIterator<Cont>::value,
+		"Please provide a valid container type with random access iterator");
+
+	auto run(Cont& container) -> void
 	{
-		auto result = SortAndMerge(container, 0, container.size() - 1);
+		auto result = SortAndMerge(container);
 		std::swap(container, result);
 	}
 
 private:
 
-	auto SortAndMerge(Cont & container, typename Cont::value_type beginPos, typename Cont::value_type endPos) -> Cont
+	auto SortAndMerge(Cont& container) -> Cont
 	{
 		if (container.size() == 1)
 			return container;
@@ -43,8 +47,8 @@ private:
 		std::copy(container.begin() + midPos, container.end(), inSub2.begin());
 
 		// Halving input array
-		auto sub1 = SortAndMerge(inSub1, 0, midPos - 1);
-		auto sub2 = SortAndMerge(inSub2, midPos, container.size() - 1);
+		auto sub1 = SortAndMerge(inSub1);
+		auto sub2 = SortAndMerge(inSub2);
 
 		// Combine sorted arrays
 		return Combine(sub1, sub2);

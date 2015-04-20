@@ -8,26 +8,21 @@ template <class Cont>
 struct SelectionSort
 {
 	// Check that container type provided
-	static_assert(HasConstIterator<Cont>::value, "Please provide a container type");
+	static_assert(HasConstIterator<Cont>::value, "Please provide a valid container type with const iterator");
 
 	// Check that value_type of a container is of integral type
 	static_assert(HasArithmeticType<Cont>::value, "Container's elements should be of integral type");
 
-	auto run(Cont & container) -> void
+	auto run(Cont& container) -> void
 	{
-		sort(container, 0, container.size() - 1);
+		sort(container);
 	}
 
 private:
 
-	auto sort(Cont & container, typename Cont::value_type beginPos, typename Cont::value_type endPos) -> void
+	auto sort(Cont& container) -> void
 	{
 		Cont::value_type min_idx = 0;
-		Cont::value_type tmp = 0;
-
-		// We are done when boundaries are wrong
-		if (beginPos >= endPos)
-			return;
 
 		size_t len = container.size();
 
@@ -46,11 +41,7 @@ private:
 
 			// If we found number less then min, do swap
 			if (container[i] != container[min_idx])
-			{
-				tmp = container[i];
-				container[i] = container[min_idx];
-				container[min_idx] = tmp;
-			}
+				std::swap(container[i], container[min_idx]);
 		}
 	}
 };

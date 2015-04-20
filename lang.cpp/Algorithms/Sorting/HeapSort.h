@@ -1,17 +1,23 @@
 #pragma once
+#include <iostream>
 #include "../Abstractions/TypePredicates.h"
+#include "../Trees/BinaryHeap.hpp"
 
 // Include in <HasProperAlgoType> type
-PROPER_SORTING_ALGORITHM(BubbleSort)
+PROPER_SORTING_ALGORITHM(HeapSort)
 
 template <class Cont>
-struct BubbleSort
+struct HeapSort
 {
 	// Check that container type provided
 	static_assert(HasConstIterator<Cont>::value, "Please provide a valid container type with const iterator");
 
 	// Check that value_type of a container is of integral type
 	static_assert(HasArithmeticType<Cont>::value, "Container's elements should be of integral type");
+
+	// Check that container has random access iterator
+	static_assert(HasRandomAccessIterator<Cont>::value, 
+		"Please provide a valid container type with random access iterator");
 
 	auto run(Cont& container) -> void
 	{
@@ -26,21 +32,14 @@ private:
 
 		size_t len = container.size();
 
-		// i = 0:len
-		for (size_t i = 0; i < len; i++)
-		{
-			// j = 0:len-i
-			for (size_t j = 0; j < len - i - 1; j++)
-			{
-				if (container[j] > container[j + 1])
-				{
-					std::swap(container[j], container[j + 1]);
-					swapped = true;
-				}
-			}
+		Heap<Cont> binary_heap;
+		binary_heap.make_heap(container);
 
-			// If there was no swap - we done
-			if (!swapped) break;
+		container.clear();
+		while (!binary_heap.empty())
+		{
+			std::cout << binary_heap.get_min() << std::endl;
+			container.push_back(binary_heap.extract_min());
 		}
 	}
 };

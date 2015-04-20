@@ -47,5 +47,8 @@
     <ClInclude Include="Trees\BinaryHeap.hpp">
       <Filter>Trees</Filter>
     </ClInclude>
+    <ClInclude Include="Sorting\HeapSort.h">
+      <Filter>Sorting</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

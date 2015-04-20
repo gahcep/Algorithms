@@ -13,27 +13,31 @@ struct QuickSort
 	// Check that value_type of a container is of integral type
 	static_assert(HasArithmeticType<Cont>::value, "Container's elements should be of integral type");
 
-	auto run(Cont & container) -> void
+	// Check that container has random access iterator
+	static_assert(HasRandomAccessIterator<Cont>::value,
+		"Please provide a valid container type with random access iterator");
+
+	auto run(Cont& container) -> void
 	{
 		sort(container, 0, container.size() - 1);
 	}
 
 private:
 
-	auto sort(Cont & container, typename Cont::value_type beginPos, typename Cont::value_type endPos) -> void
+	auto sort(Cont& container, long beginPos, long endPos) -> void
 	{
 		if (beginPos >= endPos)
 			return;
 
-		Cont::value_type pivotPos = Partition(container, beginPos, endPos);
+		long pivotPos = Partition(container, beginPos, endPos);
 		sort(container, beginPos, pivotPos - 1);
 		sort(container, pivotPos + 1, endPos);
 	}
 
-	auto Partition(Cont & container, typename Cont::value_type left, typename Cont::value_type right) -> typename Cont::value_type
+	auto Partition(Cont& container, long left, long right) -> typename Cont::value_type
 	{
-		size_t i = left;
-		size_t j = right + 1;
+		long i = left;
+		long j = right + 1;
 
 		Cont::value_type pivot = container[left];
 
@@ -61,9 +65,7 @@ private:
 				break;
 
 			// Exchange items variables i and j point to
-			Cont::value_type tmp = container[j];
-			container[j] = container[i];
-			container[i] = tmp;
+			std::swap(container[j], container[i]);
 		}
 
 		container[left] = container[j];
