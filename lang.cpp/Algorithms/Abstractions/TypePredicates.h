@@ -5,7 +5,7 @@
 
 /*
 	PROPER_SORTING_ALGORITHM:
-	Part 1: Declaration of the used algorithm
+	Part 1: Declaration of an algorithm
 	Part 2: Partial template specialization for the algorithm
 */
 
