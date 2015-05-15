@@ -7,13 +7,6 @@
 
 using std::vector;
 
-class SortingBase
-{
-public:
-
-	virtual void Run(vector<int>&) = 0;
-};
-
 template<class Derived, class Cont, template <class> class Kind>
 class Base
 {
