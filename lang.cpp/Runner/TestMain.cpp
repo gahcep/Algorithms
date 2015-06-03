@@ -2,8 +2,8 @@
 #define CATCH_CONFIG_MAIN
 #include <vector>
 #include <algorithm>
-#include "../TPL/philsquared/catch.hpp"
-#include "../TPL/DataLoader.hpp"
+#include "../TPL/Catch/catch.hpp"
+#include "../TPL/DataLoader/DataLoader.hpp"
 #include "../Algorithms/Abstractions/GenericSortBase.h"
 #include "../Algorithms/Sorting/QuickSort.h"
 #include "../Algorithms/Sorting/MergeSort.h"
