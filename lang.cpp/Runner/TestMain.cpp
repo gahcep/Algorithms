@@ -12,6 +12,8 @@
 #include "../Algorithms/Sorting/InsertionSort.h"
 #include "../Algorithms/Sorting/HeapSort.h"
 
+#include "../Algorithms/Numerics/SubArrayMaxSum.hpp"
+
 TEST_CASE("Sort Empty Array", "[Sorting]")
 {
 	std::vector<float> vec_empty{};
@@ -120,7 +122,7 @@ TEST_CASE("Generic Array", "[Sorting]")
 	if (!loader.is_ok())
 	{
 		loader.refresh();
-		exit(1);
+		return;
 	}
 
 	// Load data from the reader
@@ -293,4 +295,24 @@ TEST_CASE("Heap Navigation", "[Methods][Heap][Trees]")
 	REQUIRE((pair.first == true && pair.second == true));
 	pair = hp.has_childs(11);
 	REQUIRE((pair.first == false && pair.second == false));
+} 
+
+TEST_CASE("Maximum Sub-Array Sum :: Brute-Force", "[SubArraySum]")
+{
+	// All negative
+	REQUIRE(mss_naive_bad(std::vector<int>({ -4, -3, -11, -54, -44, -11, -3, -8, -2 })) == -2);
+	REQUIRE(mss_naive_good(std::vector<int>({ -4, -3, -11, -54, -44, -11, -3, -8, -2 })) == -2);
+	REQUIRE(mss_divide_conquer(std::vector<int>({ -4, -3, -11, -54, -44, -11, -3, -8, -2 })) == -2);
+
+	// All positive
+	REQUIRE(mss_naive_bad(std::vector<int>({ 3, 13, 1, 5, 3, 30, 1, 8, 9 })) == 73);
+	REQUIRE(mss_naive_good(std::vector<int>({ 3, 13, 1, 5, 3, 30, 1, 8, 9 })) == 73);
+	REQUIRE(mss_divide_conquer(std::vector<int>({ 3, 13, 1, 5, 3, 30, 1, 8, 9 })) == 73);
+	REQUIRE(mss_kadane(std::vector<int>({ 3, 13, 1, 5, 3, 30, 1, 8, 9 })) == 73);
+
+	// Arbitrary values
+	REQUIRE(mss_naive_bad(std::vector<int>({ 1, -3, 2, -5, 7, 6, -1, -4, 11, -23 })) == 19);
+	REQUIRE(mss_naive_good(std::vector<int>({ 1, -3, 2, -5, 7, 6, -1, -4, 11, -23 })) == 19);
+	REQUIRE(mss_divide_conquer(std::vector<int>({ 1, -3, 2, -5, 7, 6, -1, -4, 11, -23 })) == 19);
+	REQUIRE(mss_kadane(std::vector<int>({ 1, -3, 2, -5, 7, 6, -1, -4, 11, -23 })) == 19);
 }

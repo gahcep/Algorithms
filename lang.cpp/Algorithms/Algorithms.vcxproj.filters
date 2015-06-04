@@ -13,10 +13,16 @@
     <Filter Include="Trees">
       <UniqueIdentifier>{9e967985-53ae-4657-b810-9c2e71859134}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Numerics">
+      <UniqueIdentifier>{f77a87b6-df69-4310-968a-ec4b7a2f7339}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Fibonacci\Fibonacci.cpp">
       <Filter>Fibonacci</Filter>
+    </ClCompile>
+    <ClCompile Include="Numerics\SubArrayMaxSum.hpp">
+      <Filter>Numerics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
