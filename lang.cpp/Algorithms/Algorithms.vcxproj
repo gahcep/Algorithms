@@ -67,6 +67,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Fibonacci\Fibonacci.cpp" />
+    <ClCompile Include="Numerics\SubArrayMaxSum.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Abstractions\GenericSortBase.h" />
